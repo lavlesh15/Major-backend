@@ -18,7 +18,12 @@ const UserSchema = mongoose.Schema({
         type: String,
         minLength : [8 , "password cannot be less than 8 size"],
         require:[true , "password is required"]
+    },
+    role : {
+        type : String,
+        require : [true, "role is required"]
     }
+
 })
 
 module.exports = new mongoose.model('user' , UserSchema);

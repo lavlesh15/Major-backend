@@ -1,9 +1,11 @@
 const jwt = require("jsonwebtoken");
 
 exports.userAuth = async (req, res, next) => {
-  const token = req.header("token") || req.cookies.token;
 
   try {
+    
+    const token = req.header("token") || req.cookies.token;
+
     if (!token) {
       res.status(401).json({
         message: "not allowed without Auth",
@@ -15,6 +17,7 @@ exports.userAuth = async (req, res, next) => {
     req.user = {
       user_id: users.id,
     };
+
   } catch (error) {
     return res.json({
       message: "token errorr",

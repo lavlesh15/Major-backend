@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 
 exports.createUserController = async (req, res) => {
   try {
-    const { name, contact, email, password } = req.body;
+    const { name, contact, email, password, role } = req.body;
     const user = await User.findOne({ email });
 
     if (user) {
@@ -19,14 +19,15 @@ exports.createUserController = async (req, res) => {
       contact,
       email,
       password: encryptedpassword,
+      role
     });
 
     const data = {
       id: newUser._id,
     };
 
-    const token = await jwt.sign(data, "lavlesh");
-    const createdUser = newUser;
+    const token = jwt.sign(data, "lavlesh");
+    const createdUser  = newUser;
 
     createdUser.password = undefined;
 
@@ -37,9 +38,9 @@ exports.createUserController = async (req, res) => {
         httpOnly: false,
       })
       .json({
-        success: true,
+        success: "true",
         token,
-        createdUser,s
+        createdUser,
       });
   } catch (error) {
     res.status(401).json({
@@ -56,7 +57,6 @@ exports.loginController = async (req, res) => {
 
     if (!isEmailexist) {
       throw new Error("No Such email exist");
-      return;
     }
 
     const user = await User.findOne({ email });
@@ -113,18 +113,19 @@ exports.getUser = async (req, res) => {
   }
 };
 
-// exports.logout = async (req, res) => {
-//   try {
-//     res.cookie("token", "none", {
-//       expires: new Date(Date.now() + 1 * 1000),
-//       httpOnly: true,
-//     });
-//     res
-//       .status(200)
-//       .json({ success: true, message: "User logged out successfully" });
-//   } catch (error) {
-//     res.status(401).json({
-//       message: error.message,
-//     });
-//   }
-// };
+exports.logout = async (req, res) => {
+  try {
+    res.cookie('token', 'none',  {
+      expires: new Date(Date.now() + 1 * 1000),
+      httpOnly: true,
+    });
+    res
+      .status(200)
+      .json({ success: true, 'message': "User logged out successfully" });
+
+  } catch (error) {
+    res.status(401).json({
+      'message': error.message,
+    });
+  }
+};
