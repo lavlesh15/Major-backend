@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.post('/signup', createUserController)
 router.post('/login' , loginController)
-router.get('/profile', userAuth , getUser);
+router.get('/profile' , getUser);
 router.get('/logout', logout);
 
 module.exports = router;
