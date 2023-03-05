@@ -16,7 +16,7 @@ exports.sendEmail = async (req, res) => {
       from: "lavleshsingh1520@gmail.com",
       to: `${data.email}`,
       subject: `Crowdfunding Team : Reply to your Query ~ ${data.subject} `,
-      text: `hello ${data.name} , 
+      text: `Hey ${data.name} , 
        
         ${data.reply}
 
